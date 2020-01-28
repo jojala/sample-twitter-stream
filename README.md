@@ -169,21 +169,25 @@ example JSON response:
 ## Scaling Concerns
 
 *“Single Demo App”*
+
 General goal of scaling any request based application or in this case a stream driven application is to accept data as quickly as possible and then process that data asynchronously. For statistical type data the initial consideration one should take is “can it be calculated on the fly on request?” If not, pre-calculating those statistics on a regular cadence so that they are available for query might be necessary. It’s usually a balance / trade-off of how stale you can tolerate the statistics, how fast you need the statistics to be returned on request, expense of scaling compute power vs ability to scale available ram. If these statistics need to be persistent over application cycles the statistics could be stored in a database, relational or no-sql depending on your needs and preferences. Similarly to in memory solution, the persistence statistics would be not be updated on every receive event but rather updated on a regular cadence that matches system performance requirements.
 
 *“Production On Prem”*
+
 If this application were to live in a standard on prem style datacenter, a hardware based solution could allow a properly designed system to scale. At a previous company we used an F5 Big IP “layer 7” load balancer which allowed traffic to be split up based on information in the requests itself. The traffic was processed in hardware making it extremely fast in routing traffic and we could more than likely accept the entire tweet stream and shard the requests to various applications nodes based on volume, location, user or however makes sense for our requirements.
 
 ![GitHub Logo](/docs/f5_specs.png)
 
 
 *“Cloud Solution”*
+
 If I had my “druthers” I would probably adopt a cloud based solution as I’m a big believer in leveraging the scale of existing at scale solutions and focusing on problems needs unique to your business. One example could be to use AWS’s Kinesis to accept and manage the tweet stream, process the incoming data asynchronously on AWS Lambdas or one of several scalable compute resources (ECS, EKS  etc) and then ultimately store the data in elastic search, red shift, S3. Again, there’s so many options to fit your applications exact need for performance, scale and cost.
 
 ![GitHub Logo](/docs/aws_big_data.png)
 
 	
 *“Operate-ability”*
+
 From my experience, beyond even picking the right technology stack or right system architecture, the real key to scaling is building the tooling to be able to truly operate a system. Often this means creating or adopting off the shelf tooling for being able to observe system behavior, collect meaningful metrics, have systems in place to handle error conditions, down time etc. Sometimes it’s having the maturity to put in place triage processes for when systems do go down, how to manage client expectations and reports etc. 
 
 
