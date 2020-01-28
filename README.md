@@ -23,10 +23,10 @@ Build an application that connects to the Tweets API and processes incoming twee
 ## How to start stream processing
 `curl localhost:8080/start`
 
-## How to receives tweet stats
+## How to receive tweet stats
 `curl localhost:8080/stats`
 
-example JSON response:
+*example JSON response:*
 ```
 {
     "totalNumberOfTweetsReceived": 64,
@@ -181,7 +181,7 @@ If this application were to live in a standard on prem style datacenter, a hardw
 
 *“Cloud Solution”*
 
-If I had my “druthers” I would probably adopt a cloud based solution as I’m a big believer in leveraging the scale of existing at scale solutions and focusing on problems needs unique to your business. One example could be to use AWS’s Kinesis to accept and manage the tweet stream, process the incoming data asynchronously on AWS Lambdas or one of several scalable compute resources (ECS, EKS  etc) and then ultimately store the data in elastic search, red shift, S3. Again, there’s so many options to fit your applications exact need for performance, scale and cost.
+All else being equal, if it was my choice I would adopt a cloud based solution as I’m a big believer in leveraging the scale of existing at scale solutions and focusing on problems unique to your business. One example could be to use AWS’s Kinesis / Firehose to accept and manage the tweet stream, process the incoming data asynchronously on AWS Lambdas or one of several scalable compute resources (ECS, EKS  etc) and then ultimately store the data in elastic search, red shift, S3 etc. Again, there’s so many options to fit your applications exact need for performance, scale and cost.
 
 ![GitHub Logo](/docs/aws_big_data.png)
 
@@ -194,5 +194,5 @@ From my experience, beyond even picking the right technology stack or right syst
 ## What I didn’t finish
 * I started out specing out via test cases concerns around managing stream through disconnects, back off periods etc as the twitter documentation described, but I did not get that far in my time boxed efforts. Right now I’m not handling stream pauses or disconnects at all.
 * Another big missing piece in my opinion is lack of monitor performance of processing tweets to drive efficiency. I created an aspect to be able to add annotations to be able to observer the length of time processing takes and did use it in a few cases during testing but ultimately it would be nice to have that adopted throughout the system and be able to monitor performance of the various processing stages over time.
-* A lot of the functionality around processing is time based. Specifically the moving averaging testing, which is in the UrlStats object, has poor testing because I haven’t quite spent the time to come up with a way to simulate or mock the testing of the data over time. I suppose I could mock a few of the current register states, but I’m not sure I love that approach either. For now I left with the all to famous “todo:”.
+* A lot of the functionality around processing is time based. Specifically the moving averaging testing, which is in the UrlStats object, has poor test coverage because I haven’t quite spent the time to come up with a way to simulate or mock the testing of the data over time. I suppose I could mock a few of the current register states, but I’m not sure I love that approach either. For now I left it with the all to famous `TODO:` comments.
 * Lastly, I generally like to handle error conditions using event emit type patterns to collect statistics and tie in with automated reporting. This is especially important and large data processing pipelines where there are various pinch points and general points of failure. As of now there is not a lot of observability to this application.
