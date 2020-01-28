@@ -18,7 +18,7 @@ Build an application that connects to the Tweets API and processes incoming twee
 `mvn test`
 
 ## How to run application
-`mvn clean package spring-boot:run`
+`mvn clean package spring-boot:run -Dspring-boot.run.arguments=--auth.consumersecret={consumerSecret},--auth.consumerkey={consumerKey},--auth.token={token},--auth.tokensecret={tokenSecret}`
 
 ## How to start stream processing
 `curl localhost:8080/start`
