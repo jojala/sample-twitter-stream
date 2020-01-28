@@ -165,6 +165,15 @@ Build an application that connects to the Tweets API and processes incoming twee
     }
 }
 ```
+## Classes of Interest
+`IncomingTwitterSampleStream` - Main handler for configuring and recieving tweet stream
+
+`TwitterStatusStreamHandler` - Handler for receive tweet status updates. Would be the entry point for managing application concerns for managing stream flow, but to date this has not been implemented.
+
+`EmojiMaster` - Class to read in emoji.json file and store map of emojis by code
+
+`TweetStatProcessor` - Main container class for processing status updates
+
 
 ## Scaling Concerns
 
