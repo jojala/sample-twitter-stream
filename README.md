@@ -1,5 +1,5 @@
 ## Goal
-Build an application that connects to the Tweets API and processes incoming tweets to compute the follow statistics:
+Build an application that connects to the Tweets API and processes incoming tweets to compute the following statistics:
 * Total number of tweets received
 * Average tweets per hour/minute/second
 * Top emojis in tweets
@@ -173,6 +173,21 @@ Build an application that connects to the Tweets API and processes incoming twee
 `EmojiMaster` - Class to read in emoji.json file and store map of emojis by code
 
 `TweetStatProcessor` - Main container class for processing status updates
+
+## Packages of Interest
+`[/test]com.jeffreyojala.twitterstream.processor` - Foldering containing tests for all the tweet processing classes
+
+`[/]com.jeffreyojala.twitterstream.config` - Main application config where a user can available resources to allocate or similar app configuration (keys are NOT in here, injected via environment variables or command line args)
+
+`[/]com.jeffreyojala.twitterstream.http` - HTTP endpoints to control stream processing or query for statistics
+
+`[/]com.jeffreyojala.twitterstream.models` - POJO style models
+
+`[/]com.jeffreyojala.twitterstream.processor` - Group of tweet processors. *MAIN BUSINESS LOGIC*
+
+`[/]com.jeffreyojala.twitterstream.services` - Services to manage stream and other application data
+
+`[/]com.jeffreyojala.twitterstream.statcontainers` - Data containers to store (in memory) statistical data, manage time based data transitions and compute basic statistics
 
 
 ## Scaling Concerns
