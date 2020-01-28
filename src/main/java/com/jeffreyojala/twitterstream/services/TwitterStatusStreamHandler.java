@@ -11,6 +11,13 @@ import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 
 
+/**
+ * Main handler for receive tweet status updates. Right now it
+ * is basically just an entry point for receiving status updates
+ * but there's a lot more "application" level control we could / should
+ * do.
+ * TODO: add in support for handling stalls, disconnects etc
+ */
 @Component
 public class TwitterStatusStreamHandler implements StatusStreamHandler {
 

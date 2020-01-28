@@ -9,6 +9,9 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main container class for processing status updates
+ */
 @Component
 public class TweetStatProcessor {
 

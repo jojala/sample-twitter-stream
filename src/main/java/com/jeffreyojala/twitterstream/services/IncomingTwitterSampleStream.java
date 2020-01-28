@@ -13,12 +13,16 @@ import com.twitter.hbc.httpclient.auth.Authentication;
 import com.twitter.hbc.httpclient.auth.OAuth1;
 import com.twitter.hbc.twitter4j.Twitter4jStatusClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Main handler for configuring and recieving tweet stream
+ */
 @Service
 public class IncomingTwitterSampleStream {
 
@@ -28,6 +32,21 @@ public class IncomingTwitterSampleStream {
     @Autowired
     private AppConfig appConfig;
 
+    @Value("${auth.consumerkey}")
+    private String consumerKey;
+
+    @Value("${auth.consumersecret}")
+    private String consumerSecret;
+
+    @Value("${auth.token}")
+    private String token;
+
+    @Value("${auth.tokensecret}")
+    private String tokenSecret;
+
+    /**
+     * Configure client and start consuming our sample tweet stream
+     */
     public void consume() {
 
         // this blocking queue is essentially a "ram persistence strategy" where we queue up message and store them
@@ -38,8 +57,7 @@ public class IncomingTwitterSampleStream {
         Hosts hosts = new HttpHosts(Constants.STREAM_HOST);
         StatusesSampleEndpoint sampleEndpoint = new StatusesSampleEndpoint();
 
-        // TODO: These secrets should be read from a config file
-        Authentication authentication = new OAuth1("ah7gGfnU3bO9r05uamt0gyczl", "xWcflkEE9S1VtmsW8kZC36w25qvVFe5oRuZCS2xEpzjVeVSvoe", "1219783949066690560-9TgO1iBT0QwGQ4FwfGZ6INHVImJGOH", "YDEnq3KDRqtWeqSdBXTqFdDPuu1ic9U01F4JpIkdbfuFP");
+        Authentication authentication = new OAuth1(consumerKey, consumerSecret, token, tokenSecret);
 
         BasicClient client = new ClientBuilder()
                                         .hosts(hosts)
@@ -51,12 +69,15 @@ public class IncomingTwitterSampleStream {
         int numProcessingThreads = appConfig.ingestExecutors();
         ExecutorService executorService = Executors.newFixedThreadPool(numProcessingThreads);
 
+        // The Twitter4jStatusClient is the suggested Java based client by twitter itself
+        // and handles concerns such as receiving the main tweet stream, queueing up messages
+        // in ram etc. It ensures that the stream can be received and then processed asynchronously
+        // by the "client" passed in.
         Twitter4jStatusClient t4jClient = new Twitter4jStatusClient(client, msgQueue, Lists.newArrayList(statusListener), executorService);
         t4jClient.connect();
 
-        System.out.println("Woot woot");
+        // we need to call process once for each processing thread
         for (int threads = 0; threads < numProcessingThreads; threads++) {
-            System.out.println("hells yeah");
             t4jClient.process();
         }
     }

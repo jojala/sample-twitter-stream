@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Class to read in emoji.json file and store map of emojis by code
+ */
 @Component
 public class EmojiMaster {
 
