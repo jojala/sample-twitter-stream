@@ -168,16 +168,16 @@ Build an application that connects to the Tweets API and processes incoming twee
 ## Classes of Interest
 `IncomingTwitterSampleStream` - Main handler for configuring and recieving tweet stream
 
-`TwitterStatusStreamHandler` - Handler for receive tweet status updates. Would be the entry point for managing application concerns for managing stream flow, but to date this has not been implemented.
+`TwitterStatusStreamHandler` - Handler to receive tweet status updates. Would be the entry point for managing application concerns for stream flow, but to date this has not been implemented.
 
 `EmojiMaster` - Class to read in emoji.json file and store map of emojis by code
 
 `TweetStatProcessor` - Main container class for processing status updates
 
 ## Packages of Interest
-`[/test]com.jeffreyojala.twitterstream.processor` - Foldering containing tests for all the tweet processing classes
+`[/test]com.jeffreyojala.twitterstream.processor` - Folder containing tests for all the tweet processing classes
 
-`[/]com.jeffreyojala.twitterstream.config` - Main application config where a user can available resources to allocate or similar app configuration (keys are NOT in here, injected via environment variables or command line args)
+`[/]com.jeffreyojala.twitterstream.config` - Main application config where a user can configure available resources to allocate or similar app configuration (keys are NOT in here, injected via environment variables or command line args)
 
 `[/]com.jeffreyojala.twitterstream.http` - HTTP endpoints to control stream processing or query for statistics
 
